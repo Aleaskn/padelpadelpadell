@@ -2,9 +2,12 @@
   "name": "padelpadelpadel",
   "version": "1.0.0",
   "main": "server.js",
-  "author": "emanuelegurini",
+  "author": "alessandrocristalli",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.2"
+    "axios": "^0.26.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "mysql2": "^2.3.3"
   }
 }
