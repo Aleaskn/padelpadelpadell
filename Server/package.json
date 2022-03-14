@@ -1,5 +1,5 @@
 {
-  "name": "padelpadelpadel",
+  "name": "padol",
   "version": "1.0.0",
   "main": "server.js",
   "author": "alessandrocristalli",
@@ -9,6 +9,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "express-router": "^0.0.1",
     "mysql2": "^2.3.3"
   }
 }
