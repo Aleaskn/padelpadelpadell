@@ -31,9 +31,6 @@ Users should be able to:
 ![](./src/assets/screenshot.jpg)
 
 
-### Links
-
-
 ## My process
 
 ### Built with
