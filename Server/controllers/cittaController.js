@@ -3,6 +3,8 @@ const app = express();
 const axios = require('axios');
 const db = require('../db');
 
+
+//Per la ricerca di tutte le città 
 app.get('/citta', (req, res) => {
   let sql = `SELECT * FROM citta`;
 
@@ -14,8 +16,9 @@ app.get('/citta', (req, res) => {
 }); 
 
 
+//Per la ricerca di un città specifica
 app.get('/citta/:id', (req, res) => {
-  let sql = `SELECT * FROM citta WHERE id = ${req.params.id}`;
+  let sql = `SELECT * FROM citta WHERE id = '${req.params.id}' `;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
 
@@ -24,6 +27,7 @@ app.get('/citta/:id', (req, res) => {
   });
 
 })
+
 
 
 module.exports = app;

@@ -7,11 +7,11 @@ const router = express.Router();
 const db = require('./db');
 
 const cittaController = require('./controllers/cittaController'); 
-/*const strutturaController = require('./controllers/strutturaController');
+const strutturaController = require('./controllers/strutturaController');
 const campoController = require('./controllers/campoController');
 const prenotazioneController = require('./controllers/prenotazioneController');
-const userController = require('./controllers/userControllers');
-const userVerifyId = require('./middleware/userVerifyId'); */                             
+const userController = require('./controllers/userController');
+//const userVerifyId = require('./middleware/userVerifyId');                              
 
 
 app.use(cors()); //Per consentire alle nostre API la condivisione di risorse cross-origin
@@ -27,8 +27,21 @@ app.use('/', [
   require('./controllers/cittaController')
 ]);
 
+app.use('/', [
+  require('./controllers/strutturaController')
+]);
 
+app.use('/', [
+  require('./controllers/campoController')
+]);
 
+app.use('/', [
+  require('./controllers/userController')
+]);
+
+app.use('/', [
+  require('./controllers/prenotazioneController')
+]);
 
 
 app.listen(port, () => {
