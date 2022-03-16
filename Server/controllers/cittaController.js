@@ -16,6 +16,7 @@ app.get('/citta', (req, res) => {
 }); 
 
 
+
 //Per la ricerca di un città specifica
 app.get('/citta/:id', (req, res) => {
   let sql = `SELECT * FROM citta WHERE id = '${req.params.id}' `;

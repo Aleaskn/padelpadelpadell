@@ -21,8 +21,8 @@ app.use(express.urlencoded({   //Per consentire alle nostre API a ricevere dati 
   extended: true
 }));
 
-//router.route("/").axios.get(cittaController).post(cittaController);
 
+//Collegamenti ai controller
 app.use('/', [
   require('./controllers/cittaController')
 ]);
@@ -44,6 +44,7 @@ app.use('/', [
 ]);
 
 
+//Per vedere se il server è connesso 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)
 })

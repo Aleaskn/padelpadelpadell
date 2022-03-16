@@ -5,22 +5,21 @@ const db = require('../db');
 
 
 //Per inserire i dati degli utenti tramite il login
-app.post('/login', (res, req) => {
-  let sql = `INSERT INTO user (id, tell, email, nome) 
+app.post('/login', (req, res) => {
+  let sql = `INSERT INTO user (id, email, nome) 
   VALUES (
     '${req.body.id}',
-    '${req.body.tell}',
     '${req.body.email}',
     '${req.body.nome}'
   )`;
-
-    res.statusMessage(200).json({
-      status: 200,
-      success: true
+    db.query(sql, (res, res)).then(() => {
+      res.status(200).json({signUp: true});
+     })
+     .catch(() => {
+      res.status(500).json({signUp: false});
     });
-  
-})
+    
+});
 
-//ci sarà una post per aggiungere le mail, id, nome, tell
 
 module.exports = app;
