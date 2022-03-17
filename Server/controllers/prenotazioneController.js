@@ -2,9 +2,8 @@ const express = require('express');
 const app = express();
 const axios = require('axios');
 const db = require('../db');
-const userVerifyId = require('../middleware/userVerifyId'); 
-
-app.use(del);
+//const userVerifyId = require('../middleware/userVerifyId'); 
+const bodyParser = require('body-parser'); 
 
 //Per la ricerca di tutte le prenotazioni
 app.get('/prenotazione', (req, res) => {
@@ -43,7 +42,8 @@ app.get('/prenotazione/:cNome', (req, res) => {
   const prenotazione = req.query.prenotazione;
   const cNome = req.params.cNome;
   if (typeof (prenotazione) == 'undefined') {
-    const sql = `SELECT * FROM citta WHERE cNome = '${cNome}' `;
+    const sql = `SELECT * FROM prenotazione
+    INNER JOIN citta ON prenotazione.id_citta = citta.id WHERE cNome = '${cNome}' `;
 
     db.query(sql).then(result => {  //mettere controllo sugli errori
 
@@ -57,7 +57,7 @@ app.get('/prenotazione/:cNome', (req, res) => {
       INNER JOIN citta ON prenotazione.id_citta = citta.id 
       WHERE id = '${prenotazione}' AND citta.cNome='${cNome}'`;
 
-    db.query(sql).then(result => {  //mettere controllo sugli errori
+      db.query(sql).then(result => {  //mettere controllo sugli errori
       res.json(result);
     })
   }
@@ -66,7 +66,7 @@ app.get('/prenotazione/:cNome', (req, res) => {
 
 //Per inserire i dati all'interno del db per la prenotazione
 app.post('/prenotazione', (req, res) => {
-  const sql = `INSERT INTO prenotazione (id, id_citta, id_campo, id_struttura, id_user, giorno, ora) 
+  const sql = `INSERT INTO prenotazione(id, id_citta, id_campo, id_struttura, id_user, giorno, ora) 
   VALUES (
     '${req.body.id}',
     '${req.body.id_citta}',

@@ -2,11 +2,12 @@ const express = require('express');
 const app = express();
 const axios = require('axios');
 const db = require('../db');
+const bodyParser = require('body-parser'); 
 
 
 //Per inserire i dati degli utenti tramite il login
 app.post('/login', (req, res) => {
-  const sql = `INSERT INTO user (id, email, nome) 
+  const sql = `INSERT INTO user(id, email, uNome) 
   VALUES (
     '${req.body.id}',
     '${req.body.email}',

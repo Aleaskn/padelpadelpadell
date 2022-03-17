@@ -15,12 +15,6 @@ const userController = require('./controllers/userController');
 
 app.use(cors()); //Per consentire alle nostre API la condivisione di risorse cross-origin
 
-
-app.use(express.urlencoded({   //Per consentire alle nostre API a ricevere dati dal client
-  extended: true
-}));
-
-
 //Collegamenti ai controller
 app.use('/', [
   require('./controllers/cittaController')
