@@ -10,8 +10,7 @@ const cittaController = require('./controllers/cittaController');
 const strutturaController = require('./controllers/strutturaController');
 const campoController = require('./controllers/campoController');
 const prenotazioneController = require('./controllers/prenotazioneController');
-const userController = require('./controllers/userController');
-//const userVerifyId = require('./middleware/userVerifyId');                              
+const userController = require('./controllers/userController');                             
 
 
 app.use(cors()); //Per consentire alle nostre API la condivisione di risorse cross-origin

@@ -6,7 +6,7 @@ const db = require('../db');
 
 //Per la ricerca di tutte le strutture 
 app.get('/struttura', (req, res) => {
-  let sql = `SELECT * FROM struttura`;
+  const sql = `SELECT * FROM struttura`;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
 
@@ -18,7 +18,7 @@ app.get('/struttura', (req, res) => {
 
 //Per la ricerca di un struttura specifica
 app.get('/struttura/:id', (req, res) => {
-  let sql = `SELECT * FROM struttura WHERE id = '${req.params.id}' `;
+  const sql = `SELECT * FROM struttura WHERE id = '${req.params.id}' `;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
 

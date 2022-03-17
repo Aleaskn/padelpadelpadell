@@ -31,6 +31,7 @@ app.get('/citta/:id', (req, res) => {
 })
 
 
+//Per la ricerca di un campo in una città 
 app.get('/:cNome', (req, res) => {
   const campo = req.query.campo;
   const cNome = req.params.cNome;
@@ -44,7 +45,7 @@ app.get('/:cNome', (req, res) => {
     });
   } else {
     const sql =
-      `SELECT citta.id, campo.id, campo.nome, citta.cNome 
+      `SELECT *
       FROM campo 
       INNER JOIN citta ON campo.id_citta = citta.id 
       WHERE nome = '${campo}' and citta.cNome='${cNome}'`;

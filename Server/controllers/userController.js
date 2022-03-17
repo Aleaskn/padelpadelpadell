@@ -6,7 +6,7 @@ const db = require('../db');
 
 //Per inserire i dati degli utenti tramite il login
 app.post('/login', (req, res) => {
-  let sql = `INSERT INTO user (id, email, nome) 
+  const sql = `INSERT INTO user (id, email, nome) 
   VALUES (
     '${req.body.id}',
     '${req.body.email}',

@@ -6,7 +6,7 @@ const db = require('../db');
 
 //Per la ricerca dei campi 
 app.get('/campo', (req, res) => {
-  let sql = `SELECT * FROM campo`;
+  const sql = `SELECT * FROM campo`;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
 
@@ -17,7 +17,7 @@ app.get('/campo', (req, res) => {
 
 //Per la ricerca di un campo specifico
 app.get('/campo/:id', (req, res) => {
-  let sql = `SELECT * FROM campo WHERE id = '${req.params.id}' `;
+  const sql = `SELECT * FROM campo WHERE id = '${req.params.id}' `;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
 
