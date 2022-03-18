@@ -46,7 +46,7 @@ router.get('/:regione', (req, res) => {
 
 
 //Per la ricerca di un campo in una città & la ricerca dei campi in una città specifica
-router.get('/:cNome', (req, res) => {
+router.get('/cNome/:cNome', (req, res) => {
   const campo = req.query.campo;
   const cNome = req.params.cNome;
   if (typeof (campo) == 'undefined') {
