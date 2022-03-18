@@ -37,30 +37,18 @@ router.get('/:id', (req, res) => {
 })
 
 //Per la ricerca delle prenotazioni in una specifica città
-/*app.get('/prenotazione/:cNome', (req, res) => {
-  const prenotazione = req.query.prenotazione;
-  const cNome = req.params.cNome;
-  if (typeof (prenotazione) == 'undefined') {
-    const sql = `SELECT * FROM prenotazione
-    INNER JOIN citta ON prenotazione.id_citta = citta.id WHERE cNome = '${cNome}' `;
+router.get('/citta/:cNome', (req, res) => {
+  const sql = `SELECT * FROM prenotazione 
+  INNER JOIN citta ON citta.id = prenotazione.id_citta
+  WHERE cNome = '${req.params.cNome}'`;
 
-    db.query(sql).then(result => {  //mettere controllo sugli errori
+  db.query(sql).then(result => {  //mettere controllo sugli errori
 
-      res.json(result);
+    res.send(result);
+      
+  });
 
-    });
-  } else {
-    const sql =
-      `SELECT prenotazione.id, prenotazione.id_campo, prenotazione.id_citta, prenotazione.id_struttura, prenotazione.id_user, prenotazione.giorno, prenotazione.ora, citta.cNome 
-      FROM prenotazione 
-      INNER JOIN citta ON prenotazione.id_citta = citta.id 
-      WHERE id = '${prenotazione}' AND citta.cNome='${cNome}'`;
-
-      db.query(sql).then(result => {  //mettere controllo sugli errori
-      res.json(result);
-    })
-  }
-})*/
+})
 
 
 //Per inserire i dati all'interno del db per la prenotazione
