@@ -1,7 +1,7 @@
 {
   "name": "padol",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
   "author": "alessandrocristalli",
   "license": "MIT",
   "dependencies": {

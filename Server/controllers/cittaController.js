@@ -1,12 +1,18 @@
 const express = require('express');
 const app = express();
-const axios = require('axios');
+//const axios = require('axios');
 const db = require('../db');
-const router = express.Router();
+
 
 //Per la ricerca di tutte le città 
-app.get('/citta', (req, res) => {
-  res.send('200');
+app.get('/', (req, res) => {
+  const sql = `SELECT * FROM citta`;
+
+  db.query(sql).then(result => {  //mettere controllo sugli errori
+
+    res.send(result);
+
+  });
 });
 
 
@@ -48,7 +54,7 @@ app.get('/:cNome', (req, res) => {
 
     db.query(sql).then(result => {  //mettere controllo sugli errori
 
-      res.json(result);
+      res.send(result);
 
     });
   } else {
@@ -59,7 +65,7 @@ app.get('/:cNome', (req, res) => {
       WHERE nome = '${campo}' and citta.cNome='${cNome}'`;
 
     db.query(sql).then(result => {  //mettere controllo sugli errori
-      res.json(result);
+      res.send(result);
     })
   }
 })

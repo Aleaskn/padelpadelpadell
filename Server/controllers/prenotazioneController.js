@@ -19,7 +19,7 @@ app.get('/prenotazione', (req, res) => {
 
    db.query(sql).then(result => {  //mettere controllo sugli errori
 
-    res.json(result);
+    res.send(result);
       
   });
 }); 
@@ -31,14 +31,14 @@ app.get('/prenotazione/:id', (req, res) => {
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
 
-    res.json(result);
+    res.send(result);
       
   });
 
 })
 
 //Per la ricerca delle prenotazioni in una specifica città
-app.get('/prenotazione/:cNome', (req, res) => {
+/*app.get('/prenotazione/:cNome', (req, res) => {
   const prenotazione = req.query.prenotazione;
   const cNome = req.params.cNome;
   if (typeof (prenotazione) == 'undefined') {
@@ -61,7 +61,7 @@ app.get('/prenotazione/:cNome', (req, res) => {
       res.json(result);
     })
   }
-})
+})*/
 
 
 //Per inserire i dati all'interno del db per la prenotazione

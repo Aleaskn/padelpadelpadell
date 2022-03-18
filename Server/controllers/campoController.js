@@ -5,12 +5,12 @@ const db = require('../db');
 
 
 //Per la ricerca dei campi 
-app.get('/campo', (req, res) => {
+app.get('/', (req, res) => {
   const sql = `SELECT * FROM campo`;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
 
-    res.json(result);
+    res.send(result);
       
   });
 }); 
@@ -21,7 +21,7 @@ app.get('/campo/:id', (req, res) => {
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
 
-    res.json(result);
+    res.send(result);
       
   });
 
