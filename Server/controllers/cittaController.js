@@ -1,11 +1,11 @@
 const express = require('express');
-const app = express();
-//const axios = require('axios');
+const router = express();
+const axios = require('axios');
 const db = require('../db');
 
 
 //Per la ricerca di tutte le città 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   const sql = `SELECT * FROM citta`;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 
 
 //Per la ricerca di un città specifica
-app.get('/citta/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const sql = `SELECT * FROM citta WHERE id = '${req.params.id}' `;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
@@ -31,7 +31,7 @@ app.get('/citta/:id', (req, res) => {
 
 
 //Per ricercare i campi in una determinata regione
-app.get('/:regione', (req, res) => {
+router.get('/:regione', (req, res) => {
   const sql = `SELECT * FROM campo 
   INNER JOIN citta ON campo.id_citta = citta.id
   WHERE regione ='${req.params.regione}'`;
@@ -46,7 +46,7 @@ app.get('/:regione', (req, res) => {
 
 
 //Per la ricerca di un campo in una città & la ricerca dei campi in una città specifica
-app.get('/:cNome', (req, res) => {
+router.get('/:cNome', (req, res) => {
   const campo = req.query.campo;
   const cNome = req.params.cNome;
   if (typeof (campo) == 'undefined') {
@@ -70,4 +70,4 @@ app.get('/:cNome', (req, res) => {
   }
 })
 
-module.exports = app;
+module.exports = router;

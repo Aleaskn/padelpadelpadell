@@ -1,11 +1,11 @@
 const express = require('express');
-const app = express();
+const router = express();
 const axios = require('axios');
 const db = require('../db');
 
 
 //Per la ricerca dei campi 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   const sql = `SELECT * FROM campo`;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 }); 
 
 //Per la ricerca di un campo specifico
-app.get('/campo/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const sql = `SELECT * FROM campo WHERE id = '${req.params.id}' `;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
@@ -30,4 +30,4 @@ app.get('/campo/:id', (req, res) => {
 //Per la ricerca di un campo specifico in una città
 
 
-module.exports = app;
+module.exports = router;

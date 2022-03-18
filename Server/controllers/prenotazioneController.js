@@ -1,12 +1,11 @@
 const express = require('express');
-const app = express();
+const router = express();
 const axios = require('axios');
-const db = require('../db');
-//const userVerifyId = require('../middleware/userVerifyId'); 
+const db = require('../db'); 
 const bodyParser = require('body-parser'); 
 
 //Per la ricerca di tutte le prenotazioni
-app.get('/prenotazione', (req, res) => {
+router.get('/', (req, res) => {
   const sql =  `SELECT prenotazione.id, prenotazione.id_campo, user.id, user.uNome, user.email, citta.cNome, campo.timeSlot, prenotazione.giorno, prenotazione.ora, struttura.valutazione FROM prenotazione 
               INNER JOIN citta
               ON citta.id = prenotazione.id_citta
@@ -26,7 +25,7 @@ app.get('/prenotazione', (req, res) => {
 
 
 //Per la ricerca di una prenotazione specifica
-app.get('/prenotazione/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const sql = `SELECT * FROM prenotazione WHERE id = '${req.params.id}'`;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
@@ -65,7 +64,7 @@ app.get('/prenotazione/:id', (req, res) => {
 
 
 //Per inserire i dati all'interno del db per la prenotazione
-app.post('/prenotazione', (req, res) => {
+router.post('/add', (req, res) => {
   const sql = `INSERT INTO prenotazione(id, id_citta, id_campo, id_struttura, id_user, giorno, ora) 
   VALUES (
     '${req.body.id}',
@@ -88,7 +87,7 @@ app.post('/prenotazione', (req, res) => {
 
 
 //Per eliminare la prenotazione effettuata
-app.delete('/prenotazione/:id', (req, res) => {
+router.delete('/del/:id', (req, res) => {
   const sql = `DELETE FROM prenotazione WHERE id = '${req.params.id}'`;
 
   db.query(sql, (res, res)).then(() => {
@@ -101,4 +100,4 @@ app.delete('/prenotazione/:id', (req, res) => {
 });
 
 
-module.exports = app;
+module.exports = router;

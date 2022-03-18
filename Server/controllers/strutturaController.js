@@ -15,6 +15,18 @@ router.get('/', (req, res) => {
   });
 }); 
 
+//Per la ricerca di una specifica struttura tramite id 
+router.get('/:id', (req, res) => {
+  const sql = `SELECT * FROM struttura WHERE id = '${req.params.id}' `;
+
+  db.query(sql).then(result => {  //mettere controllo sugli errori
+
+    res.send(result);
+
+  });
+
+})
+
 
 
 module.exports = router;

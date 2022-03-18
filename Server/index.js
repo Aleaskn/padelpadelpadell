@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-//const axios = require('axios');
+const axios = require('axios');
 const port = process.env.PORT || 3000;
 const cors = require('cors');
 const db = require('./db');
@@ -26,7 +26,7 @@ app.use('/campo',(campoController));
 
 app.use('/user',(userController));
 
-app.use('/',(prenotazioneController));
+app.use('/prenotazione',(prenotazioneController));
 
 
 //Per vedere se il server è connesso 
