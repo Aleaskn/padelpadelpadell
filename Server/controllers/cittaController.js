@@ -31,7 +31,7 @@ router.get('/:id', (req, res) => {
 
 
 //Per ricercare i campi in una determinata regione
-router.get('/:regione', (req, res) => {
+router.get('/regione/:regione', (req, res) => {
   const sql = `SELECT * FROM campo 
   INNER JOIN citta ON campo.id_citta = citta.id
   WHERE regione ='${req.params.regione}'`;
@@ -50,7 +50,10 @@ router.get('/cNome/:cNome', (req, res) => {
   const campo = req.query.campo;
   const cNome = req.params.cNome;
   if (typeof (campo) == 'undefined') {
-    const sql = `SELECT * FROM citta WHERE cNome = '${cNome}' `;
+    const sql = `SELECT * FROM campo 
+    INNER JOIN citta ON campo.id_citta = citta.id
+    INNER JOIN struttura ON campo.id_struttura = struttura.id
+    WHERE cNome = '${cNome}' `;
 
     db.query(sql).then(result => {  //mettere controllo sugli errori
 

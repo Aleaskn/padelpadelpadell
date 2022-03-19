@@ -4,6 +4,7 @@ const axios = require('axios');
 const db = require('../db'); 
 const bodyParser = require('body-parser'); 
 
+
 //Per la ricerca di tutte le prenotazioni
 router.get('/', (req, res) => {
   const sql =  `SELECT prenotazione.id, prenotazione.id_campo, user.id, user.uNome, user.email, citta.cNome, campo.timeSlot, prenotazione.giorno, prenotazione.ora, struttura.valutazione FROM prenotazione 
@@ -37,10 +38,9 @@ router.get('/:id', (req, res) => {
 })
 
 //Per la ricerca delle prenotazioni in una specifica città
-router.get('/citta/:cNome', (req, res) => {
+router.get('/giorno/:giorno', (req, res) => {
   const sql = `SELECT * FROM prenotazione 
-  INNER JOIN citta ON citta.id = prenotazione.id_citta
-  WHERE cNome = '${req.params.cNome}'`;
+  WHERE giorno = '${req.params.giorno}'`;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
 

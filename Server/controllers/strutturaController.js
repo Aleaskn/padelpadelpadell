@@ -28,6 +28,20 @@ router.get('/:id', (req, res) => {
 })
 
 
+//Per la ricerca delle prenotazioni in una struttura specifica
+router.get('/prenotazione/:sNome', (req, res) => {
+  const sql = `SELECT * FROM prenotazione 
+  INNER JOIN struttura ON struttura.id = prenotazione.id_struttura
+  WHERE sNome = '${req.params.sNome}'`;
+
+  db.query(sql).then(result => {  //mettere controllo sugli errori
+
+    res.send(result);
+      
+  });
+
+})
+
 
 //Per la ricerca delle strutture in una determinata regione e in una determinata città
 router.get('/regione/:regione', (req, res) => {
