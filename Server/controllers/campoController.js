@@ -16,8 +16,8 @@ router.get('/', (req, res) => {
 }); 
 
 //Per la ricerca di un campo specifico
-router.get('/:id', (req, res) => {
-  const sql = `SELECT * FROM campo WHERE id = '${req.params.id}' `;
+router.get('/:nome', (req, res) => {
+  const sql = `SELECT * FROM campo WHERE nome = '${req.params.nome}' `;
 
   db.query(sql).then(result => {  //mettere controllo sugli errori
 

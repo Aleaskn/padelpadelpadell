@@ -51,6 +51,32 @@ router.get('/giorno/:giorno', (req, res) => {
 })
 
 
+router.get('/giorno/:giorno', (req, res) => {
+  const nome = req.query.nome;
+  const giorno = req.params.giorno;
+  if (typeof (cNome) == 'undefined') {
+    const sql = `SELECT * FROM prenotazione 
+    WHERE giorno = '${req.params.giorno}'
+    `;
+
+    db.query(sql).then(result => {  //mettere controllo sugli errori
+
+      res.send(result);
+
+    });
+  } else {
+    const sql =
+      `SELECT * FROM prenotazione 
+      INNER JOIN campo ON prenotazione.id_campo = campo.id 
+      WHERE nome = '${nome}' and prenotazione.giorno='${giorno}'`;
+
+    db.query(sql).then(result => {  //mettere controllo sugli errori
+      res.send(result);
+    })
+  }
+})
+
+
 //Per inserire i dati all'interno del db per la prenotazione
 router.post('/add', (req, res) => {
   const sql = `INSERT INTO prenotazione(id, id_citta, id_campo, id_struttura, id_user, giorno, ora) 

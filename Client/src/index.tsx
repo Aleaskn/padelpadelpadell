@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { 
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { theme } from './themes/app.globalStyle'
+import {
   BrowserRouter as Router,
   Route,
   Routes
@@ -17,7 +19,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <UserAuthContextProvider>
-      <App />
+          <ThemeProvider theme={theme}>
+              <App />
+          </ThemeProvider>
       </UserAuthContextProvider>
     </Router>
   </React.StrictMode>,

@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as ROUTES from '../../constants/routes';
-import { useUserAuth } from '../context/UseAuthContext';
+import { useUserAuth } from '../../components/context/UseAuthContext';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 
@@ -23,8 +23,8 @@ function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <a target='_blank' href="https://github.com/Aleaskn">
-        Made with ❤️ by Alessansro Cristalli
+      <a target='_blank' href="https://github.com/EmanueleGurini">
+        Padol.it
       </a>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -51,7 +51,7 @@ export default function SignIn() {
 
       await logIn(email, password)
 
-      navigate("/home");
+      navigate("/");
 
     } catch (err : any) {
 
@@ -65,7 +65,7 @@ export default function SignIn() {
         
         await signInWithGoogle();
 
-        navigate("/home");
+        navigate("/");
 
       } catch(err : any) {
 
