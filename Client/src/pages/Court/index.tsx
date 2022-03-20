@@ -4,11 +4,16 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import imgCourt from '../../assets/images/imgplaceholder.jpg'
 import TableReservation from "../../components/Table/TableReservation";
+import { useParams } from 'react-router-dom';
 
 // How to use background img cover inside div/box:
 // https://www.freecodecamp.org/news/react-background-image-tutorial-how-to-set-backgroundimage-with-inline-css-style/
 
 const Court : React.FC<{}> = () => {
+
+    const params = useParams();
+
+    console.log('params', params)
 
     const [data, setData] = React.useState<string>('');
 
@@ -19,7 +24,7 @@ const Court : React.FC<{}> = () => {
     const updateData = (event:  React.ChangeEvent<HTMLInputElement>) : void => {
         setData(event.target.value);
     }
-        fetch(`http://localhost:3001/campo/campo1`)
+        fetch(`http://localhost:3001/campo/${params.court}`)
         .then(res => res.json())
         .then(res => console.log(res[0]))
 
@@ -40,7 +45,7 @@ const Court : React.FC<{}> = () => {
                     </Box>
                 <Box>
                     <input  onChange={(event) => updateData(event)} type="date" id="reservation" name="reservation" />
-                    <TableReservation court='campo1' data={data} />
+                    <TableReservation court={params.court} data={data} />
                 </Box>
             </Container>
         </React.Fragment>

@@ -8,6 +8,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IStandardButton from '../Button/index'
+import { setServers } from 'dns/promises';
+import { 
+    ITableReservation,
+    IReservations,
+    IReservation } from './interfaces';
+import { useUserAuth } from '../context/UseAuthContext';
+const axios = require('axios');
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -40,23 +48,13 @@ const getTime = (value: any) : string => {
     return value.time
 }
 
-interface IReservation {
-    time : string
-    data : string | undefined
-
-}
 const getReservation = (time : string, data : string | undefined) : IReservation=> {
    let reservation : IReservation = {
        time : time,
        data : data
    };
-   console.log(reservation)
+   console.log('time reservation', reservation.time)
    return  reservation
-}
-
-interface ITableReservation {
-    data?: string
-    court?: string
 }
 
 const timesSlot = [
@@ -77,48 +75,138 @@ const timesSlot = [
 
 const TableReservation: React.FC<ITableReservation> = (props : ITableReservation) => {
 
+    console.log('courteeeeeee', props.court )
+
+    let { user } = useUserAuth();
+    if(user){
+      console.log('usereeeeeee:',user.uid)
+    }
+
     let rows : Array<any> = [];    
 
-    const [reservation, setReservation] = React.useState<Array<any>>([]);
-    
-    fetch(`http://localhost:3001/prenotazione/giorno/${props.data}?nome=${props.court}`)
-    .then(res => res.json())
-    .then(res => console.log('result', res[0]))
-    
-    let timeReserved = '12:00';
+    const [reservations, setReservations] = React.useState<Array<IReservations>>([]);
 
-    timesSlot.map((timeSlot, i) => rows.push(createData(timeSlot, <IStandardButton onClick={()=> getReservation(getTime(rows.find((row, j) => i == j ? row.time : null)), props.data)} label={'prenota'} />)))
+    interface IResDataAndId {
+        time : string
+        id : string
+    }
+    let timesReserved : Array<IResDataAndId> = [];
 
-    rows = rows.filter((row) => {
-        if (row.time !== timeReserved) {
-            return row
-        } else {
-            return row.button = <IStandardButton onClick={()=> getReservation(getTime(rows.find(row => row.time == timeReserved)), props.data)} label={'Prenotato'} reserved/>
-        }
+    React.useEffect(() => {
+
+        fetch(`http://localhost:3001/prenotazione/giorno/${props.data}?nome=${props.court}`)
+        .then(res => res.json())
+        .then(res => setReservations(res[0]))
+
+        
+    }, [props.data, props.court]);
+    
+    reservations.map(reservation => timesReserved.push({time : reservation?.ora, id : reservation?.id}))
+    console.log('time reservations array', timesReserved)
+    console.log('test di reserve', reservations);
+    
+    let timeReserved = reservations[0]?.ora;
+
+    async function deleteReservation(id : any) {
+        const response = await fetch(`http://localhost:3001/prenotazione/del/${id}`, {
+          method: "DELETE",
+        });
+        return response.json();
+      }
+
+    interface IAddReservation {
+          id : string
+          id_citta : string
+          id_struttura: string
+          id_campo: string
+          id_user: string 
+          giorno: string
+          ora: string
+      }
+
+    //   async function addReservation(id: string, id_citta: string, id_struttura: string, id_campo: string, id_user: string, giorno: string, ora: string) {
+    //     const response = await fetch(`http://localhost:3001/prenotazione/add`, {
+    //       method: "POST",
+    //       body: {
+    //         id : 'mario', 
+    //         id_citta : 'mario', 
+    //         id_struttura : 'mario', 
+    //         id_campo : 'mario', 
+    //         id_user : 'mario', 
+    //         giorno: 'mario', 
+    //         ora : 'mario', 
+    //       }
+    //     });
+    //     return response.json();
+    //   }
+
+    const randomIdReservation = () => {
+        return 'res-' + Math.floor(Math.random() * 1000);
+    }
+
+    const addReservation = (reservation: {time : string, data : string | undefined}) => axios.post('http://localhost:3001/prenotazione/add', {
+        id: randomIdReservation().toString(),
+        id_citta:'1A',
+        id_campo:'1a',
+        id_struttura:'1@',
+        id_user: 'qd3DnD5MrnhCrThrKEHBPO9AOOC2',
+        giorno: reservation.data,
+        ora:reservation.time})
+    .then(function(response : any){
+        console.log(response)
     })
 
 
+    timesSlot.map((timeSlot, i) => rows.push(createData(timeSlot, <IStandardButton onClick={()=> addReservation(getReservation(getTime(rows.find((row, j) => i == j ? row.time : null)), props.data))} label={'prenota'} />)))
+
+
+    if(timesReserved.length > 0) {
+    
+        for(let i = 0; i < timeReserved.length; i++) {
+    
+            rows = rows.filter((row) => {
+                if (row.time !== timesReserved[i]?.time) {
+                    return row
+                } else {
+                    // return row.button = <IStandardButton onClick={()=> getReservation(getTime(rows.find(row => row.time == timeReserved)), props.data)} label={'Prenotato'} reserved/>
+                    return row.button = <IStandardButton onClick={()=> deleteReservation(timesReserved[i]?.id)} label={'Prenotato'} reserved/>
+                }
+            })
+    
+        }
+
+    }
+
+    //const [disableDiv, setDisableDiv] = React.useState(disable);
+
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell>Ora</StyledTableCell>
-                        <StyledTableCell align="right">Stato Prenotazione</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.time}>
-                            <StyledTableCell component="th" scope="row">
-                                {row.time}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">{row.button}</StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+            <React.Fragment>
+                {/* <button onClick={addReservation}>Test</button> */}
+        <div className='userVerify' disabled={this.state.disabled}>
+           
+
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell>Ora</StyledTableCell>
+                            <StyledTableCell align="right">Stato Prenotazione</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => (
+                            <StyledTableRow key={row.time}>
+                                <StyledTableCell component="th" scope="row">
+                                    {row.time}
+                                </StyledTableCell>
+                                <StyledTableCell align="right">{row.button}</StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
+        </React.Fragment>
     );
 }
 

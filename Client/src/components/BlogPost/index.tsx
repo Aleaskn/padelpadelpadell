@@ -37,7 +37,7 @@ const BlogPost : React.FC<IBlogPost> = (props) => {
                     Padel Club Porto Recanati
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
-                    V.le Europa, 157
+                    V.le Europa, 7
                 </Typography>
                 <Icon glyph={'ball'} size={'md'} />
             </CardContent>
