@@ -2,6 +2,8 @@ export interface ITableReservation {
   data?: string
   idStruttura?: string
   court?: string
+  idCity?: string
+  idCourt?: string
 }
 
 export interface IReservations {

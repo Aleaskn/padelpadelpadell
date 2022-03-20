@@ -31,7 +31,7 @@ const BlogPost : React.FC<IBlogPost> = (props) => {
                     {props.title}
                 </Typography>
                 <Typography sx={{fontStyle: 'italic'}} variant="body1" component="div">
-                    Coperto
+                    Aperto
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
                     Padel Club Porto Recanati

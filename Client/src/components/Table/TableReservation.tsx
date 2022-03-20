@@ -14,7 +14,9 @@ import {
     IReservations,
     IReservation } from './interfaces';
 import { useUserAuth } from '../context/UseAuthContext';
+import Box from '@mui/material/Box';
 const axios = require('axios');
+// import { ICourt } from '../../pages/Courts/Courts';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -53,7 +55,7 @@ const getReservation = (time : string, data : string | undefined) : IReservation
        time : time,
        data : data
    };
-   console.log('time reservation', reservation.time)
+   //console.log('time reservation', reservation.time)
    return  reservation
 }
 
@@ -75,12 +77,9 @@ const timesSlot = [
 
 const TableReservation: React.FC<ITableReservation> = (props : ITableReservation) => {
 
-    console.log('courteeeeeee', props.court )
+    const [counter, setCounter] = React.useState<number>(0)
 
     let { user } = useUserAuth();
-    if(user){
-      console.log('usereeeeeee:',user.uid)
-    }
 
     let rows : Array<any> = [];    
 
@@ -98,12 +97,9 @@ const TableReservation: React.FC<ITableReservation> = (props : ITableReservation
         .then(res => res.json())
         .then(res => setReservations(res[0]))
 
-        
-    }, [props.data, props.court]);
+    }, [props.data, props.court, counter]);
     
     reservations.map(reservation => timesReserved.push({time : reservation?.ora, id : reservation?.id}))
-    console.log('time reservations array', timesReserved)
-    console.log('test di reserve', reservations);
     
     let timeReserved = reservations[0]?.ora;
 
@@ -111,34 +107,9 @@ const TableReservation: React.FC<ITableReservation> = (props : ITableReservation
         const response = await fetch(`http://localhost:3001/prenotazione/del/${id}`, {
           method: "DELETE",
         });
+        setCounter(counter + 1);
         return response.json();
       }
-
-    interface IAddReservation {
-          id : string
-          id_citta : string
-          id_struttura: string
-          id_campo: string
-          id_user: string 
-          giorno: string
-          ora: string
-      }
-
-    //   async function addReservation(id: string, id_citta: string, id_struttura: string, id_campo: string, id_user: string, giorno: string, ora: string) {
-    //     const response = await fetch(`http://localhost:3001/prenotazione/add`, {
-    //       method: "POST",
-    //       body: {
-    //         id : 'mario', 
-    //         id_citta : 'mario', 
-    //         id_struttura : 'mario', 
-    //         id_campo : 'mario', 
-    //         id_user : 'mario', 
-    //         giorno: 'mario', 
-    //         ora : 'mario', 
-    //       }
-    //     });
-    //     return response.json();
-    //   }
 
     const randomIdReservation = () => {
         return 'res-' + Math.floor(Math.random() * 1000);
@@ -146,13 +117,15 @@ const TableReservation: React.FC<ITableReservation> = (props : ITableReservation
 
     const addReservation = (reservation: {time : string, data : string | undefined}) => axios.post('http://localhost:3001/prenotazione/add', {
         id: randomIdReservation().toString(),
-        id_citta:'1A',
-        id_campo:'1a',
-        id_struttura:'1@',
-        id_user: 'qd3DnD5MrnhCrThrKEHBPO9AOOC2',
+        id_citta: props.idCity,
+        id_campo: props.idCourt,
+        id_struttura: props.idStruttura,
+        // id_user: 'qd3DnD5MrnhCrThrKEHBPO9AOOC2',
+        id_user: user?.uid,
         giorno: reservation.data,
-        ora:reservation.time})
+        ora: reservation.time})
     .then(function(response : any){
+        setCounter(counter + 1)
         console.log(response)
     })
 
@@ -176,16 +149,9 @@ const TableReservation: React.FC<ITableReservation> = (props : ITableReservation
         }
 
     }
-
-    //const [disableDiv, setDisableDiv] = React.useState(disable);
-
     return (
             <React.Fragment>
-                {/* <button onClick={addReservation}>Test</button> */}
-        <div className='userVerify' disabled={this.state.disabled}>
-           
-
-            <TableContainer component={Paper}>
+                <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -205,7 +171,6 @@ const TableReservation: React.FC<ITableReservation> = (props : ITableReservation
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
         </React.Fragment>
     );
 }

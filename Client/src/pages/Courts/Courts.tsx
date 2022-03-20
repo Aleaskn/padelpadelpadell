@@ -41,15 +41,13 @@ const Courts : React.FC<{}> = () => {
     
     const params = useParams()
 
-    console.log(params)
+    //console.log(params)
 
     React.useEffect(() => {
         fetch(`http://localhost:3001/citta/cNome/${params.city}`)
             .then(res => res.json())
             .then(res => setCourts(res[0]))
     }, [])
-console.log('res', courts);
-
 
     const restoreOutPutParams = (inputValue : string) : string => {
         let input = inputValue.trim();
